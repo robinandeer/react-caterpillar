@@ -28,6 +28,7 @@
   },
   "scripts": {
     "ts-types": "tsc --emitDeclarationOnly",
+    "lint": "eslint ./src/**",
     "build": "rimraf ./dist && node ./script/bundle.js && npm run ts-types"
   },
   "peerDependencies": {

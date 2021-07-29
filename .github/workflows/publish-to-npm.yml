@@ -17,7 +17,7 @@ jobs:
         run: yarn install
       - name: Build package
         run: yarn build
-      - name: Link source code
+      - name: Lint source code
         run: yarn lint
       - name: Publish package
         uses: JS-DevTools/npm-publish@v1

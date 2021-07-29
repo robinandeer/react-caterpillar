@@ -1,5 +1,5 @@
-import React from "react";
-import type { FeatureFlag, FeatureGroup } from "./types";
+import React from 'react';
+import type {FeatureFlag, FeatureGroup} from './types';
 
 interface ProviderProps {
   children: React.ReactNode;
@@ -16,80 +16,80 @@ interface FeatureProps<NameType> {
 }
 
 export function initCaterpillar<NameType extends string>(
-  features: FeatureGroup<NameType>
+	features: FeatureGroup<NameType>,
 ) {
-  const Context = React.createContext<CaterpillarContext<NameType> | null>(
-    null
-  );
+	const Context = React.createContext<CaterpillarContext<NameType> | null>(
+		null,
+	);
 
-  function useContext() {
-    const context = React.useContext(Context);
+	function useContext() {
+		const context = React.useContext(Context);
 
-    if (context === null) {
-      throw new Error("You need to setup Caterpillar with a provider");
-    }
+		if (context === null) {
+			throw new Error('You need to setup Caterpillar with a provider');
+		}
 
-    return context;
-  }
+		return context;
+	}
 
-  function useFeatures(): [
+	function useFeatures(): [
     Array<FeatureFlag<NameType>>,
-    CaterpillarContext<NameType>["setFeature"]
-  ] {
-    const context = useContext();
-    return [
-      Object.values<FeatureFlag<NameType>>(context.features),
-      context.setFeature,
-    ];
-  }
+    CaterpillarContext<NameType>['setFeature']
+    ] {
+		const context = useContext();
+		return [
+			Object.values<FeatureFlag<NameType>>(context.features),
+			context.setFeature,
+		];
+	}
 
-  function useFeature(name: NameType) {
-    return useContext().features[name];
-  }
+	function useFeature(name: NameType) {
+		return useContext().features[name];
+	}
 
-  const Feature: React.FC<FeatureProps<NameType>> = ({
-    name,
-    children,
-    fallback,
-  }) => {
-    const feature = useFeature(name);
+	const Feature: React.FC<FeatureProps<NameType>> = ({
+		name,
+		children,
+		fallback,
+	}) => {
+		const feature = useFeature(name);
 
-    if (feature.active) {
-      return <>{children}</>;
-    }
+		if (feature.active) {
+			return <>{children}</>;
+		}
 
-    return fallback ?? null;
-  };
+		return fallback ?? null;
+	};
 
-  function Provider({ children }: ProviderProps) {
-    const [featureGroup, setFeatureGroup] = React.useState(features);
+	function Provider({children}: ProviderProps) {
+		const [featureGroup, setFeatureGroup] = React.useState(features);
 
-    const setFeature = React.useCallback((name: NameType, active: boolean) => {
-      setFeatureGroup((prevFeatures) => ({
-        ...prevFeatures,
-        [name]: {
-          ...prevFeatures[name],
-          active,
-        },
-      }));
-    }, []);
+		const setFeature = React.useCallback((name: NameType, active: boolean) => {
+			setFeatureGroup(prevFeatures => ({
+				...prevFeatures,
+				[name]: {
+					...prevFeatures[name],
+					active,
+				},
+			}));
+		}, []);
 
-    return (
-      <Context.Provider
-        value={{
-          features: featureGroup,
-          setFeature,
-        }}
-      >
-        {children}
-      </Context.Provider>
-    );
-  }
+		return (
+			<Context.Provider
+				value={{
+					features: featureGroup,
+					setFeature,
+				}}
+			>
+				{children}
+			</Context.Provider>
+		);
+	}
 
-  return {
-    useFeatures,
-    useFeature,
-    Feature,
-    Provider,
-  };
+	return {
+		useFeatures,
+		useFeature,
+		Feature,
+		Provider,
+	};
 }

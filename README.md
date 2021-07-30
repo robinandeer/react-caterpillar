@@ -15,7 +15,7 @@ npm install react-caterpillar
 ## Usage
 
 ```typescript
-# feature-toggles.ts
+// feature-toggles.ts
 
 import { initCaterpillar } from "caterpillar";
 import type { FeatureGroup } from "caterpillar";
@@ -44,7 +44,7 @@ export default Caterpillar
 ```
 
 ```typescript
-# app.tsx
+// app.tsx
 
 import React from "react";
 import Caterpillar, { FeatureName } from "./feature-toggles"

@@ -28,21 +28,28 @@
   },
   "scripts": {
     "ts-types": "tsc --emitDeclarationOnly",
-    "lint": "eslint ./src/**",
-    "build": "rimraf ./dist && node ./script/bundle.js && npm run ts-types"
+    "lint": "eslint ./src/**/*",
+    "build": "rimraf ./dist && node ./script/bundle.js && npm run ts-types",
+    "test": "jest"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.2"
   },
   "devDependencies": {
+    "@testing-library/react-hooks": "^7.0.1",
+    "@types/jest": "^26.0.24",
     "@types/react": "^17.0.15",
     "@types/react-dom": "^17.0.9",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
     "@typescript-eslint/parser": "^4.28.5",
     "esbuild": "^0.12.16",
+    "esbuild-jest": "^0.5.0",
     "eslint": "^7.31.0",
     "eslint-config-xo": "^0.37.0",
     "eslint-plugin-react": "^7.24.0",
+    "jest": "^27.0.6",
+    "react": "^17.0.2",
+    "react-test-renderer": "^17.0.2",
     "rimraf": "^3.0.2",
     "typescript": "^4.3.5"
   }

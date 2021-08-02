@@ -6,9 +6,11 @@ A simple **[feature toggle][feature-toggles]** library for React ⚛️.
 
 ```bash
 yarn add react-caterpillar
+```
 
-# or
+or
 
+```bash
 npm install react-caterpillar
 ```
 
@@ -17,37 +19,37 @@ npm install react-caterpillar
 ```typescript
 // feature-toggles.ts
 
-import { initCaterpillar } from "caterpillar";
-import type { FeatureGroup } from "caterpillar";
+import {initCaterpillar} from 'caterpillar';
+import type {FeatureGroup} from 'caterpillar';
 
 export enum FeatureName {
-  blueButton = "blueButton",
-  displayVersion = "displayVersion",
+  blueButton = 'blueButton',
+  displayVersion = 'displayVersion',
 }
 
 const FEATURES: FeatureGroup<FeatureName> = {
   [FeatureName.blueButton]: {
     name: FeatureName.blueButton,
-    description: "Blue button",
+    description: 'Blue button',
     active: true,
   },
   [FeatureName.displayVersion]: {
     name: FeatureName.displayVersion,
-    description: "Display app version on Home screen",
+    description: 'Display app version on Home screen',
     active: false,
   },
 };
 
 const Caterpillar = initCaterpillar(FEATURES);
 
-export default Caterpillar
+export default Caterpillar;
 ```
 
 ```typescript
 // app.tsx
 
-import React from "react";
-import Caterpillar, { FeatureName } from "./feature-toggles"
+import React from 'react';
+import Caterpillar, {FeatureName} from './feature-toggles';
 
 function HomeScreen() {
   const displayVersion = Caterpillar.useFeature(FeatureName.displayVersion);
@@ -80,7 +82,7 @@ This section explains the rest of the API.
 You can access feature toggles using either the React Hooks API or the higher order `Caterpillar.Feature` component.
 
 ```typescript
-import Caterpillar, { FeatureName } from "./feature-toggles";
+import Caterpillar, {FeatureName} from './feature-toggles';
 
 function AboutScreen() {
   const [count, setCount] = React.useState(0);
@@ -89,8 +91,8 @@ function AboutScreen() {
     <main>
       <Caterpillar.Feature name={FeatureName.blueButton} fallback={null}>
         <button
-          style={{ backgroundColor: "blue" }}
-          onClick={() => setCount((count) => count + 1)}
+          style={{backgroundColor: 'blue'}}
+          onClick={() => setCount(count => count + 1)}
         >
           Count is: {count}
         </button>
@@ -100,12 +102,12 @@ function AboutScreen() {
 }
 ```
 
-### Accessing and updating all features
+### Listing and updating all feature toggles
 
-You can use the React Hook `Caterpillar.useFeatures` to access all available features. This is especially useful for implementing a hidden feature toggle screen where users can toggle features locally.
+You can use the `Caterpillar.useFeatures`-hook to access all feature toggles. This is especially useful for implementing a (hidden) feature toggle screen where users can enable features to preview them locally.
 
 ```typescript
-import Caterpillar from "./feature-toggles";
+import Caterpillar from './feature-toggles';
 
 function HiddenScreen() {
   const [features, setFeature] = Caterpillar.useFeatures();
@@ -115,14 +117,14 @@ function HiddenScreen() {
       <h2>All features</h2>
 
       <ul>
-        {features.map((feature) => (
+        {features.map(feature => (
           <li key={feature.name}>
             <label>
               <input
                 type="checkbox"
                 name={feature.name}
                 checked={feature.active}
-                onChange={(event) =>
+                onChange={event =>
                   setFeature(feature.name, event.target.checked)
                 }
               />
@@ -134,6 +136,7 @@ function HiddenScreen() {
     </div>
   );
 }
+
 ```
 
 [feature-toggles]: https://martinfowler.com/articles/feature-toggles.html

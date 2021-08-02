@@ -1,8 +1,9 @@
 import React from 'react';
 import type {FeatureFlag, FeatureGroup} from './types';
 
-interface ProviderProps {
+interface ProviderProps<NameType> {
   children: React.ReactNode;
+  initiallyEnabled?: Array<NameType>
 }
 
 interface CaterpillarContext<NameType extends string> {
@@ -61,8 +62,11 @@ export function initCaterpillar<NameType extends string>(
 		return fallback ?? null;
 	};
 
-	function Provider({children}: ProviderProps) {
-		const [featureGroup, setFeatureGroup] = React.useState(features);
+	function Provider({children, initiallyEnabled = []}: ProviderProps<NameType>) {
+		const [featureGroup, setFeatureGroup] = React.useState(() => initiallyEnabled.reduce((acc, name) => {
+			acc[name] = {...acc[name], active: true};
+			return acc;
+		}, features));
 
 		const setFeature = React.useCallback((name: NameType, active: boolean) => {
 			setFeatureGroup(prevFeatures => ({

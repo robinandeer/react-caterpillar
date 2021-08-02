@@ -136,7 +136,29 @@ function HiddenScreen() {
     </div>
   );
 }
+```
 
+### Enabling features on start-up
+
+You can pass a list of initially enabled features to the provider component. One idea would be to read the enabled features from the URL.
+
+```typescript
+import React from 'react';
+import parse from 'url-parse';
+import Caterpillar, {FeatureName} from './feature-toggles';
+
+function App() {
+  const features = React.useMemo(() => {
+    const url = parse(window.location.href, true);
+    return url.query['enable']
+  }, [])
+
+  return (
+    <Caterpillar.Provider initiallyEnabled={features}>
+      <HomeScreen />
+    </Caterpillar.Provider>
+  );
+}
 ```
 
 [feature-toggles]: https://martinfowler.com/articles/feature-toggles.html
